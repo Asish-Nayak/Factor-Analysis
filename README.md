@@ -10,10 +10,7 @@ The Data
 Based on literature survey, 14 issues are identified that make remanufacturing business infeasible for different company.
 
 Describing the data
-df = pd.read_csv(r"data.csv")
-df.info()
- 
-<class 'pandas.core.frame.DataFrame'>
+
 RangeIndex: 41 entries, 0 to 40
 Data columns (total 16 columns):
  #   Column     Non-Null Count  Dtype 
@@ -38,14 +35,6 @@ dtypes: int64(15), object(1)
 memory usage: 5.2+ KB
  
 
-Data pre-processing 
-# Dropping unnecessary columns
-df.drop(['SL', 'Companies'], axis = 1, inplace=True)
-# Dropping missing values rows
-df.dropna(inplace=True)
-
-Remove the sl.no and company name column, because we are going to do factor analysis only for the variables and drop the empty value in the dataset using dropna function.
-
 Assessing the Factorability of the Data
 Before we go too far down the road with this analysis, we should evaluate the “factorability” of our data. In other words, “are there meaningful latent factors to be found within the data?” We can check two things: 
 (1) Bartlett’s test of sphericity. 
@@ -54,8 +43,6 @@ Before we go too far down the road with this analysis, we should evaluate the �
 Bartlett’s Test of Sphericity
 The most liberal test is Bartlett’s test of sphericity - this evaluates whether or not the variables intercorrelate at all, by evaluating the observed correlation matrix against an “identity matrix” (a matrix with ones along the principal diagonal, and zeroes everywhere else). If this test is not statistically significant, you should not employ a factor analysis.
 
-chi_square_value,p_value= calculate_bartlett_sphericity(df)
-
 Chi_square_value =500.8142719899995 
 P_value 	    =6.666018861410905e-58
 Bartlett’s test was statistically significant, suggesting that the observed correlation matrix among the items is not an identity matrix.
@@ -63,15 +50,12 @@ Bartlett’s test was statistically significant, suggesting that the observed co
 KMO
 The Kaiser-Meyer-Olkin (KMO) measure of sampling adequacy is a better measure of factorability. The KMO tests to see if the partial correlations within your data are close enough to zero to suggest that there is at least one latent factor underlying your variables. The minimum acceptable value is 0.60 before undertaking a factor analysis
 
-	kmo_all,kmo_model=calculate_kmo(df)
-	
-	kmo _model = 0.6670308043222346
+kmo _model = 0.6670308043222346
 The overall KMO for our data is 0.66 which is not excellent – but this suggests that our data is adequate we can go ahead with our planned factor analysis.
 
 Conducting the Factor Analysis
 Conduct the factor analysis for 2 factor and without rotation.
-fa = FactorAnalyzer(n_factors = 2, rotation=None)
-fa.fit(df)
+
 factor loading :
 [[-0.60866917  	0.64742003]
  [-0.61792639  	0.65063522]
@@ -90,20 +74,17 @@ factor loading :
 
 Here we observed that some of the factor are shows good loading on both the factor , so we have to rotate the  data to overcome this cross loading.
 
-Check Eigenvalues
-	ev, v = fa.get_eigenvalues()
+
 
 [6.14808269 3.30505941 1.02436621 0.9439278  0.59144416 0.57588844
- 0.38892042 0.28955435 0.22004001 0.17378175 0.15322265 0.10892026
- 0.04246395 0.03432789]
+0.38892042 0.28955435 0.22004001 0.17378175 0.15322265 0.10892026
+0.04246395 0.03432789]
  
 Based on the condition eigen value more than 1  and scree plot we can say that 3 factor will give the better information about the data.so we again do the factor analysis for 3 factor with varimax rotation.
 
 Conducting the Factor Analysis with rotation
 Conduct the factor analysis for 3 factor and with varimax rotation.
 	
-fa = FactorAnalyzer(n_factors = 3, rotation="varimax")
-fa.fit(df)
 
 Factor loading 
 
@@ -137,9 +118,7 @@ Here we only get the 68.24% percentage of variance of data , approximately 32 % 
 Conducting the Factor Analysis with rotation – n_factor =5
 
 Conduct the factor analysis for 5 factor and with varimax rotation.
-	
-fa = FactorAnalyzer(n_factors = 5, rotation="varimax")
-fa.fit(df)
+
 
 Factor loading 
 [[ 0.00459332  0.85934949 -0.22899232  0.23087051  0.15113714]
@@ -173,5 +152,4 @@ Here we got 78.09 % of cumulative variance explained by all 5 factor, we loss ap
 
 
 Conclusion 
-
-The remanufacturing business in India is probably governed by the five underlying factors
+The dataset has probably governed by the five underlying factors
