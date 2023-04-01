@@ -13,7 +13,7 @@ Describing the data
 
 RangeIndex: 41 entries, 0 to 40
 Data columns (total 16 columns):
- #   Column     Non-Null Count  Dtype 
+ Column     Non-Null Count  Dtype 
 ---  ------     --------------  ----- 
  0   SL         41 non-null     int64 
  1   Companies  41 non-null     object
